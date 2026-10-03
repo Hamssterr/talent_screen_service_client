@@ -70,18 +70,19 @@ function ActivateAccountContent() {
   if (!token) {
     return (
       <div className="p-8 md:p-12 flex flex-col items-center justify-center h-full text-center">
-        <div className="w-14 h-14 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-2xl flex items-center justify-center mb-4">
+        <div className="w-14 h-14 bg-destructive/10 border border-destructive/20 text-destructive rounded-2xl flex items-center justify-center mb-4">
           <XCircle className="w-7 h-7" />
         </div>
-        <h1 className="text-2xl font-semibold tracking-[-0.02em] text-[#f5f5f7] mb-2">
+        <h1 className="text-2xl font-semibold tracking-[-0.02em] text-foreground mb-2">
           Liên kết kích hoạt không hợp lệ
         </h1>
-        <p className="text-[#86868b] text-xs mb-6 max-w-sm">
+        <p className="text-muted-foreground text-xs mb-6 max-w-sm">
           Không tìm thấy mã kích hoạt trong đường dẫn. Vui lòng kiểm tra lại thư mời trong hộp thư của bạn.
         </p>
         <Button
           onClick={() => router.push("/auth/login")}
-          className="h-11 rounded-xl bg-[#1d1d1f] border border-[#38383a] hover:bg-[#2c2c2e] text-[#f5f5f7] transition-all">
+          variant="outline"
+          className="h-11 rounded-xl">
           Đi đến trang đăng nhập
         </Button>
       </div>
@@ -93,13 +94,13 @@ function ActivateAccountContent() {
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         <FieldGroup className="w-full flex flex-col gap-5">
           <div className="flex flex-col gap-2 mb-2">
-            <div className="w-12 h-12 bg-[#1d1d1f] border border-[#38383a] rounded-xl flex items-center justify-center mb-1 text-primary">
+            <div className="w-12 h-12 bg-primary/10 border border-primary/20 rounded-xl flex items-center justify-center mb-1 text-primary">
               <UserCheck className="w-6 h-6" />
             </div>
-            <h1 className="text-2xl font-semibold tracking-[-0.02em] text-[#f5f5f7]">
+            <h1 className="text-2xl font-semibold tracking-[-0.02em] text-foreground">
               Kích hoạt tài khoản
             </h1>
-            <p className="text-xs text-[#86868b]">
+            <p className="text-xs text-muted-foreground">
               Chào mừng bạn đến với TalentScreen! Vui lòng thiết lập mật khẩu ban đầu để hoàn tất kích hoạt.
             </p>
           </div>
@@ -107,7 +108,7 @@ function ActivateAccountContent() {
           <Field className="space-y-1.5">
             <FieldLabel
               htmlFor="password"
-              className="text-[13px] font-normal text-[#86868b]">
+              className="text-[13px] font-normal text-muted-foreground">
               Mật khẩu mới
             </FieldLabel>
             <div className="relative">
@@ -117,12 +118,12 @@ function ActivateAccountContent() {
                 placeholder="••••••••"
                 disabled={isPending}
                 {...register("password")}
-                className="h-11 pl-3.5 pr-11 text-sm rounded-xl transition-all bg-[#1d1d1f] border-[#38383a] text-[#f5f5f7] placeholder:text-[#6e6e73] focus-visible:ring-1"
+                className="h-11 pl-3.5 pr-11 text-sm rounded-xl transition-all"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-[#86868b] hover:text-[#f5f5f7] transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-1">
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
                 {showPassword ? (
                   <EyeOff className="h-4 w-4" />
                 ) : (
@@ -140,7 +141,7 @@ function ActivateAccountContent() {
           <Field className="space-y-1.5">
             <FieldLabel
               htmlFor="confirmPassword"
-              className="text-[13px] font-normal text-[#86868b]">
+              className="text-[13px] font-normal text-muted-foreground">
               Xác nhận mật khẩu
             </FieldLabel>
             <div className="relative">
@@ -150,12 +151,12 @@ function ActivateAccountContent() {
                 placeholder="••••••••"
                 disabled={isPending}
                 {...register("confirmPassword")}
-                className="h-11 pl-3.5 pr-11 text-sm rounded-xl transition-all bg-[#1d1d1f] border-[#38383a] text-[#f5f5f7] placeholder:text-[#6e6e73] focus-visible:ring-1"
+                className="h-11 pl-3.5 pr-11 text-sm rounded-xl transition-all"
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-[#86868b] hover:text-[#f5f5f7] transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-1">
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
                 {showConfirmPassword ? (
                   <EyeOff className="h-4 w-4" />
                 ) : (
@@ -189,7 +190,7 @@ function ActivateAccountContent() {
           <div className="text-center">
             <Link
               href="/auth/login"
-              className="text-xs text-[#86868b] hover:text-foreground transition-colors">
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               Đã có tài khoản? Đăng nhập ngay
             </Link>
           </div>
@@ -205,13 +206,13 @@ export function ActivateAccountForm({
 }: React.ComponentProps<"div">) {
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="overflow-hidden p-0 bg-black border-[#333336] rounded-[28px] text-[#f5f5f7] shadow-2xl">
+      <Card className="overflow-hidden p-0 bg-card border-border rounded-[28px] text-card-foreground shadow-2xl">
         <CardContent className="grid p-3 md:grid-cols-2 min-h-[420px]">
           <Suspense
             fallback={
               <div className="flex flex-col items-center justify-center w-full h-full p-12 text-center">
                 <Loader2 className="w-10 h-10 text-primary animate-spin mb-4" />
-                <p className="text-[#86868b] text-xs">Đang tải biểu mẫu kích hoạt...</p>
+                <p className="text-muted-foreground text-xs">Đang tải biểu mẫu kích hoạt...</p>
               </div>
             }>
             <ActivateAccountContent />

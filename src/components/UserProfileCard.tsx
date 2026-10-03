@@ -102,7 +102,7 @@ export const UserProfileCard = ({ user, authorization }: UserProfileCardProps) =
               icon={Activity}
               label="Trạng thái"
               value={user.status}
-              valueClass="text-emerald-500 uppercase text-xs"
+              valueClass="text-success uppercase text-xs"
             />
           )}
         </div>

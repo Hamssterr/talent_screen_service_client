@@ -2,30 +2,23 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 /**
- * Todo 00 Baseline Middleware.
+ * Next.js Middleware (Todo 02 Strategy).
  *
- * Checks presence of temporary access-token cookie to redirect authenticated users away from public auth pages.
- * Does NOT check roles/permissions (deferred to Todo 02).
- * Does NOT block candidate public routes (/interview/*).
+ * Security & Architecture Strategy:
+ * 1. Access tokens are stored strictly in memory (access-token-store.ts), eliminating persistent XSS exfiltration risks.
+ * 2. Refresh tokens are stored in NestJS backend HttpOnly cookies across origins.
+ * 3. Next.js Edge Middleware cannot and MUST NOT inspect in-memory runtime session tokens.
+ * 4. Internal Workspace protection is strictly enforced by SessionProvider + AuthGate in the (workspace) layout.
+ * 5. Candidate public interview routes (/interview/*) and public auth routes are never blocked.
+ * 6. NestJS backend JWTAuthGuard + PermissionsGuard enforce definitive access control on every API request.
  */
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get("accessToken")?.value;
-  const { pathname } = request.nextUrl;
+  const response = NextResponse.next();
 
-  // Public authentication routes
-  const publicAuthRoutes = [
-    "/auth/login",
-    "/auth/forgot-password",
-    "/auth/reset-password",
-    "/auth/activate-account",
-  ];
+  // Forward request with standard security headers
+  response.headers.set("x-pathname", request.nextUrl.pathname);
 
-  // If user has an access token and visits login page, redirect to home
-  if (token && publicAuthRoutes.includes(pathname)) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
-
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {

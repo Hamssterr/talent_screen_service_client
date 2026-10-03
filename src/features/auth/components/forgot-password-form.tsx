@@ -57,7 +57,7 @@ export function ForgotPasswordForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="overflow-hidden p-0 bg-black border-[#333336] rounded-[28px] text-[#f5f5f7] shadow-2xl">
+      <Card className="overflow-hidden p-0 border border-border bg-card text-card-foreground shadow-lg rounded-2xl">
         <CardContent className="grid p-3 md:grid-cols-2 min-h-[420px]">
           {/* Left Column: Form / Success State */}
           <div className="p-6 md:p-8 lg:p-12 flex flex-col justify-center">
@@ -65,13 +65,13 @@ export function ForgotPasswordForm({
               <form onSubmit={handleSubmit(onSubmit)} className="w-full">
                 <FieldGroup className="w-full flex flex-col gap-5">
                   <div className="flex flex-col gap-2 mb-2">
-                    <div className="w-12 h-12 bg-[#1d1d1f] border border-[#38383a] rounded-xl flex items-center justify-center mb-1 text-primary">
-                      <KeyRound className="w-6 h-6" />
+                    <div className="size-12 bg-primary/10 border border-primary/20 rounded-xl flex items-center justify-center mb-1 text-primary">
+                      <KeyRound className="size-6" />
                     </div>
-                    <h1 className="text-2xl font-semibold tracking-[-0.02em] text-[#f5f5f7]">
+                    <h1 className="text-2xl font-bold tracking-tight text-foreground">
                       Quên mật khẩu?
                     </h1>
-                    <p className="text-xs text-[#86868b]">
+                    <p className="text-xs text-muted-foreground">
                       Nhập địa chỉ email của bạn để nhận liên kết đặt lại mật khẩu.
                     </p>
                   </div>
@@ -79,7 +79,7 @@ export function ForgotPasswordForm({
                   <Field className="space-y-1.5">
                     <FieldLabel
                       htmlFor="email"
-                      className="text-[13px] font-normal text-[#86868b]">
+                      className="text-xs font-medium text-foreground">
                       Địa chỉ Email
                     </FieldLabel>
                     <Input
@@ -89,7 +89,7 @@ export function ForgotPasswordForm({
                       required
                       disabled={isPending}
                       {...register("email")}
-                      className="h-11 px-3.5 text-sm rounded-xl transition-all bg-[#1d1d1f] border-[#38383a] text-[#f5f5f7] placeholder:text-[#6e6e73] focus-visible:ring-1"
+                      className="h-10 px-3.5 text-sm rounded-lg"
                     />
                     {errors.email && (
                       <p className="text-xs font-medium text-destructive mt-1">
@@ -102,7 +102,7 @@ export function ForgotPasswordForm({
                     <Button
                       type="submit"
                       disabled={isPending}
-                      className="w-full h-11 text-sm font-medium rounded-xl transition-all duration-200 active:scale-[0.99] shadow-sm">
+                      className="w-full h-10 text-sm font-medium rounded-lg shadow-xs">
                       {isPending ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -117,8 +117,8 @@ export function ForgotPasswordForm({
                   <div className="mt-2 text-center">
                     <Link
                       href="/auth/login"
-                      className="inline-flex items-center text-xs font-normal text-[#86868b] hover:text-foreground transition-colors">
-                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      className="inline-flex items-center text-xs font-medium text-muted-foreground hover:text-foreground transition-colors">
+                      <ArrowLeft className="size-4 mr-2" />
                       Quay lại trang đăng nhập
                     </Link>
                   </div>
@@ -126,22 +126,22 @@ export function ForgotPasswordForm({
               </form>
             ) : (
               <div className="w-full flex flex-col items-center text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <div className="w-14 h-14 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl flex items-center justify-center mb-5">
-                  <CheckCircle className="w-7 h-7" />
+                <div className="size-14 bg-success-soft border border-success/20 text-success-foreground rounded-2xl flex items-center justify-center mb-5">
+                  <CheckCircle className="size-7 text-success" />
                 </div>
 
-                <h1 className="text-2xl font-semibold tracking-[-0.02em] text-[#f5f5f7] mb-2">
+                <h1 className="text-2xl font-bold tracking-tight text-foreground mb-2">
                   Kiểm tra hộp thư của bạn
                 </h1>
-                <p className="text-[#86868b] text-xs mb-6 leading-relaxed max-w-xs">
-                  Nếu email <span className="font-medium text-[#f5f5f7]">{submittedEmail}</span> tồn tại trong hệ thống, chúng tôi đã gửi hướng dẫn đặt lại mật khẩu.
+                <p className="text-muted-foreground text-xs mb-6 leading-relaxed max-w-xs">
+                  Nếu email <span className="font-semibold text-foreground">{submittedEmail}</span> tồn tại trong hệ thống, chúng tôi đã gửi hướng dẫn đặt lại mật khẩu.
                 </p>
 
                 <div className="flex flex-col gap-3 w-full">
                   <Link
                     href="/auth/login"
-                    className="inline-flex items-center justify-center w-full h-11 text-sm font-medium rounded-xl border border-[#38383a] bg-[#1d1d1f] hover:bg-[#2c2c2e] text-[#f5f5f7] transition-colors">
-                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    className="inline-flex items-center justify-center w-full h-10 text-sm font-medium rounded-lg border border-border bg-secondary text-secondary-foreground hover:bg-muted transition-colors">
+                    <ArrowLeft className="size-4 mr-2" />
                     Quay lại trang đăng nhập
                   </Link>
                 </div>
@@ -150,7 +150,7 @@ export function ForgotPasswordForm({
           </div>
 
           {/* Right Column: Image Banner */}
-          <div className="relative hidden w-full h-full min-h-[360px] md:block overflow-hidden rounded-2xl">
+          <div className="relative hidden w-full h-full min-h-[360px] md:block overflow-hidden rounded-xl">
             <Image
               src="/asset/login-bg.png"
               alt="Forgot password banner"

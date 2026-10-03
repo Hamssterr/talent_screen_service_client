@@ -10,14 +10,15 @@ import { authApi } from "../api/auth.api";
 import { authKeys } from "../api/auth.keys";
 import {
   ActivateAccountRequest,
-  AuthorizationContext,
+  ChangePasswordRequest,
   CurrentUser,
   ForgotPasswordRequest,
   LoginRequest,
   LoginResult,
   ResetPasswordRequest,
 } from "../types/auth.types";
-import { tokenStorage } from "@/lib/auth/token-storage";
+import { accessTokenStore } from "@/lib/auth/access-token-store";
+import { authorizationKeys } from "@/features/authorization/api/authorization.keys";
 
 /**
  * Mutation hook for login.
@@ -33,9 +34,9 @@ export const useLoginMutation = (
     onSuccess: (...args) => {
       const [data] = args;
       if (data?.accessToken) {
-        tokenStorage.setAccessToken(data.accessToken);
-        // Invalidate auth queries so that fresh user profile and permissions will be loaded
+        accessTokenStore.setAccessToken(data.accessToken);
         queryClient.invalidateQueries({ queryKey: authKeys.all });
+        queryClient.invalidateQueries({ queryKey: authorizationKeys.all });
       }
       if (options?.onSuccess) {
         options.onSuccess(...args);
@@ -58,15 +59,43 @@ export const useLogoutMutation = (
       try {
         await authApi.logout();
       } catch (err) {
-        // Even if server revoke fails (e.g. network lost), proceed to clear client session
-        console.warn("[Auth] Server logout failed, clearing local session.", err);
+        // Even if server revoke fails (e.g. session already expired or network issue), proceed to clear client session
+        console.warn("[Auth] Server logout notification failed, clearing local session.", err);
       }
     },
     ...options,
     onSettled: (...args) => {
-      tokenStorage.clearAccessToken();
+      accessTokenStore.clearAccessToken();
       queryClient.removeQueries({ queryKey: authKeys.all });
+      queryClient.removeQueries({ queryKey: authorizationKeys.all });
       queryClient.clear(); // Clear all cached query data for security
+      router.push("/auth/login");
+      if (options?.onSettled) {
+        options.onSettled(...args);
+      }
+    },
+  });
+};
+
+/**
+ * Mutation hook for logout from all devices.
+ */
+export const useLogoutAllMutation = (
+  options?: UseMutationOptions<void, Error, void>,
+) => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: async () => {
+      await authApi.logoutAll();
+    },
+    ...options,
+    onSettled: (...args) => {
+      accessTokenStore.clearAccessToken();
+      queryClient.removeQueries({ queryKey: authKeys.all });
+      queryClient.removeQueries({ queryKey: authorizationKeys.all });
+      queryClient.clear();
       router.push("/auth/login");
       if (options?.onSettled) {
         options.onSettled(...args);
@@ -124,7 +153,23 @@ export const useActivateAccountMutation = (
 };
 
 /**
- * Query hook for current user identity.
+ * Mutation hook for change password.
+ */
+export const useChangePasswordMutation = (
+  options?: UseMutationOptions<
+    { message: string | null },
+    Error,
+    ChangePasswordRequest
+  >,
+) => {
+  return useMutation({
+    mutationFn: (data: ChangePasswordRequest) => authApi.changePassword(data),
+    ...options,
+  });
+};
+
+/**
+ * Query hook for current user identity matching GET /auth/me.
  */
 export const useCurrentUserQuery = (
   options?: Omit<
@@ -132,37 +177,11 @@ export const useCurrentUserQuery = (
     "queryKey" | "queryFn"
   >,
 ) => {
-  const hasToken = typeof window !== "undefined" ? !!tokenStorage.getAccessToken() : false;
+  const hasToken = typeof window !== "undefined" && Boolean(accessTokenStore.getAccessToken());
 
   return useQuery({
     queryKey: authKeys.currentUser(),
     queryFn: () => authApi.getCurrentUser(),
-    enabled: hasToken && (options?.enabled !== undefined ? options.enabled : true),
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    retry: false,
-    ...options,
-  });
-};
-
-/**
- * Query hook for user authorization (roles and permissions).
- */
-export const useAuthorizationQuery = (
-  options?: Omit<
-    UseQueryOptions<
-      AuthorizationContext,
-      Error,
-      AuthorizationContext,
-      readonly unknown[]
-    >,
-    "queryKey" | "queryFn"
-  >,
-) => {
-  const hasToken = typeof window !== "undefined" ? !!tokenStorage.getAccessToken() : false;
-
-  return useQuery({
-    queryKey: authKeys.authorization(),
-    queryFn: () => authApi.getMyAuthorization(),
     enabled: hasToken && (options?.enabled !== undefined ? options.enabled : true),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: false,
