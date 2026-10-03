@@ -70,18 +70,19 @@ function ResetPasswordContent() {
   if (!token) {
     return (
       <div className="p-8 md:p-12 flex flex-col items-center justify-center h-full text-center">
-        <div className="w-14 h-14 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-2xl flex items-center justify-center mb-4">
-          <XCircle className="w-7 h-7" />
+        <div className="size-14 bg-danger-soft border border-destructive/20 text-danger-foreground rounded-2xl flex items-center justify-center mb-4">
+          <XCircle className="size-7 text-destructive" />
         </div>
-        <h1 className="text-2xl font-semibold tracking-[-0.02em] text-[#f5f5f7] mb-2">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground mb-2">
           Liên kết không hợp lệ
         </h1>
-        <p className="text-[#86868b] text-xs mb-6 max-w-sm">
+        <p className="text-muted-foreground text-xs mb-6 max-w-sm">
           Không tìm thấy mã xác thực. Vui lòng kiểm tra lại đường dẫn trong email của bạn hoặc yêu cầu gửi lại liên kết mới.
         </p>
         <Button
           onClick={() => router.push("/auth/forgot-password")}
-          className="h-11 rounded-xl bg-[#1d1d1f] border border-[#38383a] hover:bg-[#2c2c2e] text-[#f5f5f7] transition-all">
+          variant="outline"
+          className="h-10 rounded-lg">
           Yêu cầu cấp lại liên kết
         </Button>
       </div>
@@ -93,13 +94,13 @@ function ResetPasswordContent() {
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         <FieldGroup className="w-full flex flex-col gap-5">
           <div className="flex flex-col gap-2 mb-2">
-            <div className="w-12 h-12 bg-[#1d1d1f] border border-[#38383a] rounded-xl flex items-center justify-center mb-1 text-primary">
-              <ShieldCheck className="w-6 h-6" />
+            <div className="size-12 bg-primary/10 border border-primary/20 rounded-xl flex items-center justify-center mb-1 text-primary">
+              <ShieldCheck className="size-6" />
             </div>
-            <h1 className="text-2xl font-semibold tracking-[-0.02em] text-[#f5f5f7]">
+            <h1 className="text-2xl font-bold tracking-tight text-foreground">
               Đặt lại mật khẩu
             </h1>
-            <p className="text-xs text-[#86868b]">
+            <p className="text-xs text-muted-foreground">
               Mật khẩu mới của bạn phải có từ 8 đến 100 ký tự.
             </p>
           </div>
@@ -107,7 +108,7 @@ function ResetPasswordContent() {
           <Field className="space-y-1.5">
             <FieldLabel
               htmlFor="newPassword"
-              className="text-[13px] font-normal text-[#86868b]">
+              className="text-xs font-medium text-foreground">
               Mật khẩu mới
             </FieldLabel>
             <div className="relative">
@@ -117,12 +118,12 @@ function ResetPasswordContent() {
                 placeholder="••••••••"
                 disabled={isPending}
                 {...register("newPassword")}
-                className="h-11 pl-3.5 pr-11 text-sm rounded-xl transition-all bg-[#1d1d1f] border-[#38383a] text-[#f5f5f7] placeholder:text-[#6e6e73] focus-visible:ring-1"
+                className="h-10 pl-3.5 pr-11 text-sm rounded-lg"
               />
               <button
                 type="button"
                 onClick={() => setShowNewPassword(!showNewPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-[#86868b] hover:text-[#f5f5f7] transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-1">
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground transition-colors rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 {showNewPassword ? (
                   <EyeOff className="h-4 w-4" />
                 ) : (
@@ -140,7 +141,7 @@ function ResetPasswordContent() {
           <Field className="space-y-1.5">
             <FieldLabel
               htmlFor="confirmPassword"
-              className="text-[13px] font-normal text-[#86868b]">
+              className="text-xs font-medium text-foreground">
               Xác nhận mật khẩu mới
             </FieldLabel>
             <div className="relative">
@@ -150,12 +151,12 @@ function ResetPasswordContent() {
                 placeholder="••••••••"
                 disabled={isPending}
                 {...register("confirmPassword")}
-                className="h-11 pl-3.5 pr-11 text-sm rounded-xl transition-all bg-[#1d1d1f] border-[#38383a] text-[#f5f5f7] placeholder:text-[#6e6e73] focus-visible:ring-1"
+                className="h-10 pl-3.5 pr-11 text-sm rounded-lg"
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-[#86868b] hover:text-[#f5f5f7] transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-1">
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground transition-colors rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 {showConfirmPassword ? (
                   <EyeOff className="h-4 w-4" />
                 ) : (
@@ -174,7 +175,7 @@ function ResetPasswordContent() {
             <Button
               type="submit"
               disabled={isPending}
-              className="w-full h-11 text-sm font-medium rounded-xl transition-all duration-200 active:scale-[0.99] shadow-sm">
+              className="w-full h-10 text-sm font-medium rounded-lg shadow-xs">
               {isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -189,7 +190,7 @@ function ResetPasswordContent() {
           <div className="text-center">
             <Link
               href="/auth/login"
-              className="text-xs text-[#86868b] hover:text-foreground transition-colors">
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               Hủy và quay lại trang đăng nhập
             </Link>
           </div>
@@ -205,19 +206,19 @@ export function ResetPasswordForm({
 }: React.ComponentProps<"div">) {
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="overflow-hidden p-0 bg-black border-[#333336] rounded-[28px] text-[#f5f5f7] shadow-2xl">
+      <Card className="overflow-hidden p-0 border border-border bg-card text-card-foreground shadow-lg rounded-2xl">
         <CardContent className="grid p-3 md:grid-cols-2 min-h-[420px]">
           <Suspense
             fallback={
               <div className="flex flex-col items-center justify-center w-full h-full p-12 text-center">
-                <Loader2 className="w-10 h-10 text-primary animate-spin mb-4" />
-                <p className="text-[#86868b] text-xs">Đang tải biểu mẫu...</p>
+                <Loader2 className="size-8 text-primary animate-spin mb-4" />
+                <p className="text-muted-foreground text-xs">Đang tải biểu mẫu...</p>
               </div>
             }>
             <ResetPasswordContent />
           </Suspense>
 
-          <div className="relative hidden w-full h-full min-h-[360px] md:block overflow-hidden rounded-2xl">
+          <div className="relative hidden w-full h-full min-h-[360px] md:block overflow-hidden rounded-xl">
             <Image
               src="/asset/login-bg.png"
               alt="Reset password banner"

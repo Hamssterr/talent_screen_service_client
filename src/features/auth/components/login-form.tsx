@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Eye, EyeOff } from "lucide-react";
@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { getApiError } from "@/lib/api/api-error";
+import { getSafeReturnTo } from "@/lib/auth/return-to";
 import { LoginFormValues, loginSchema } from "../schemas/login.schema";
 import { useLoginMutation } from "../hooks/use-auth";
 
@@ -27,12 +28,14 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
 
   const { mutate: loginAccount, isPending } = useLoginMutation({
     onSuccess: () => {
       toast.success("Đăng nhập thành công!");
-      router.push("/");
+      const targetUrl = getSafeReturnTo(searchParams.get("returnTo"), "/dashboard");
+      router.push(targetUrl);
     },
     onError: (error) => {
       const apiError = getApiError(error);
@@ -58,18 +61,18 @@ export function LoginForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="overflow-hidden p-0 bg-black border-[#333336] rounded-[28px] text-[#f5f5f7] shadow-2xl">
-        <CardContent className="grid p-3 md:grid-cols-2">
+      <Card className="overflow-hidden p-0 border border-border bg-card text-card-foreground shadow-lg rounded-2xl">
+        <CardContent className="grid p-3 md:grid-cols-2 min-h-[420px]">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex items-center p-6 md:p-8">
             <FieldGroup className="w-full flex flex-col gap-5">
               {/* Header Title */}
               <div className="flex flex-col items-center gap-1.5 text-center mb-1">
-                <h1 className="text-2xl font-semibold tracking-[-0.02em] text-[#f5f5f7]">
+                <h1 className="text-2xl font-bold tracking-tight text-foreground">
                   TalentScreen
                 </h1>
-                <p className="text-xs text-[#86868b]">
+                <p className="text-xs text-muted-foreground">
                   Đăng nhập vào hệ thống phỏng vấn và đánh giá ứng viên
                 </p>
               </div>
@@ -78,7 +81,7 @@ export function LoginForm({
               <Field className="space-y-1.5">
                 <FieldLabel
                   htmlFor="email"
-                  className="text-[13px] font-normal text-[#86868b]">
+                  className="text-xs font-medium text-foreground">
                   Email
                 </FieldLabel>
                 <Input
@@ -88,7 +91,7 @@ export function LoginForm({
                   required
                   disabled={isPending}
                   {...register("email")}
-                  className="h-11 px-3.5 text-sm rounded-xl transition-all bg-[#1d1d1f] border-[#38383a] text-[#f5f5f7] placeholder:text-[#6e6e73] focus-visible:ring-1"
+                  className="h-10 px-3.5 text-sm rounded-lg"
                 />
                 {errors.email && (
                   <p className="text-xs font-medium text-destructive mt-1">
@@ -102,12 +105,12 @@ export function LoginForm({
                 <div className="flex items-center justify-between">
                   <FieldLabel
                     htmlFor="password"
-                    className="text-[13px] font-normal text-[#86868b]">
+                    className="text-xs font-medium text-foreground">
                     Mật khẩu
                   </FieldLabel>
                   <Link
                     href="/auth/forgot-password"
-                    className="text-xs text-muted-foreground hover:text-foreground transition-colors underline-offset-4 hover:underline">
+                    className="text-xs text-muted-foreground hover:text-primary transition-colors underline-offset-4 hover:underline">
                     Quên mật khẩu?
                   </Link>
                 </div>
@@ -119,12 +122,12 @@ export function LoginForm({
                     disabled={isPending}
                     placeholder="••••••••"
                     {...register("password")}
-                    className="h-11 pl-3.5 pr-11 text-sm rounded-xl transition-all bg-[#1d1d1f] border-[#38383a] text-[#f5f5f7] placeholder:text-[#6e6e73] focus-visible:ring-1"
+                    className="h-10 pl-3.5 pr-11 text-sm rounded-lg"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-[#86868b] hover:text-[#f5f5f7] transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-1">
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground transition-colors rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                     {showPassword ? (
                       <EyeOff className="h-4 w-4" />
                     ) : (
@@ -144,7 +147,7 @@ export function LoginForm({
                 <Button
                   type="submit"
                   disabled={isPending}
-                  className="w-full h-11 text-sm font-medium rounded-xl transition-all duration-200 active:scale-[0.99] shadow-sm">
+                  className="w-full h-10 text-sm font-medium rounded-lg shadow-xs">
                   {isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -159,7 +162,7 @@ export function LoginForm({
           </form>
 
           {/* Right column banner */}
-          <div className="relative hidden w-full h-full min-h-[360px] md:block overflow-hidden rounded-2xl">
+          <div className="relative hidden w-full h-full min-h-[360px] md:block overflow-hidden rounded-xl">
             <Image
               src="/asset/login-bg.png"
               alt="TalentScreen Authentication"

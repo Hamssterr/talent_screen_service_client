@@ -1,77 +1,59 @@
-"use client";
+import Link from "next/link";
+import { ArrowRight, Lock, UserCheck } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import {
-  useCurrentUserQuery,
-  useAuthorizationQuery,
-  useLogoutMutation,
-} from "@/features/auth/hooks/use-auth";
-import { UserProfileCard } from "@/components/UserProfileCard";
-import { Loader2 } from "lucide-react";
-
-export default function Home() {
-  const router = useRouter();
-
-  const {
-    data: user,
-    isLoading: isLoadingUser,
-    isError: isUserError,
-    refetch: refetchUser,
-  } = useCurrentUserQuery();
-
-  const { data: authorization, refetch: refetchAuth } = useAuthorizationQuery({
-    enabled: !!user,
-  });
-
-  const { mutate: logout, isPending: isLoggingOut } = useLogoutMutation();
-
-  const handleRefreshMe = () => {
-    refetchUser();
-    refetchAuth();
-  };
-
-  if (isLoadingUser) {
-    return (
-      <div className="flex min-h-screen items-center justify-center p-6">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
-  }
-
+export default function RootLandingPage() {
   return (
-    <div className="mx-auto my-auto items-center min-h-screen justify-center flex flex-col gap-6 p-6">
-      {!user || isUserError ? (
-        <div className="flex flex-col items-center gap-4 text-center max-w-md">
-          <h1 className="text-3xl font-bold">TalentScreen Platform</h1>
-          <p className="text-muted-foreground text-sm">
-            Hệ thống phỏng vấn và đánh giá ứng viên thông minh. Vui lòng đăng
-            nhập để tiếp tục.
-          </p>
-          <Button onClick={() => router.push("/auth/login")}>
-            Đến trang đăng nhập
-          </Button>
+    <div className="min-h-screen flex flex-col justify-between bg-background text-foreground transition-colors duration-200">
+      <header className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div className="flex items-center gap-2.5">
+          <div className="size-8 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-xs shadow-xs">
+            TS
+          </div>
+          <span className="font-semibold text-sm tracking-tight text-foreground">
+            TalentScreen
+          </span>
         </div>
-      ) : (
-        <div className="flex flex-col items-center gap-4 w-full max-w-md">
-          <UserProfileCard user={user} authorization={authorization} />
-          <div className="flex gap-3 w-full">
-            <Button
-              variant="outline"
-              className="flex-1"
-              onClick={handleRefreshMe}>
-              Làm mới hồ sơ (/auth/me)
-            </Button>
-            <Button
-              variant="destructive"
-              className="flex-1"
-              disabled={isLoggingOut}
-              onClick={() => logout()}>
-              {isLoggingOut ? "Đang đăng xuất..." : "Đăng xuất"}
-            </Button>
+        <ThemeToggle variant="compact" />
+      </header>
+
+      <main className="container mx-auto flex-1 flex items-center justify-center p-6 text-center">
+        <div className="max-w-xl space-y-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium border border-primary/20">
+            Nền tảng tuyển dụng & Phỏng vấn AI
+          </div>
+
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+            Tuyển dụng thông minh, Đánh giá chuẩn xác
+          </h1>
+
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            Hệ thống quản lý quy trình tuyển dụng, trích xuất hồ sơ ứng viên và
+            tự động hóa phỏng vấn với công nghệ AI tiên tiến.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <Link
+              href="/dashboard"
+              className={buttonVariants({ variant: "default", size: "lg" })}>
+              <Lock className="size-4 mr-2" />
+              Truy cập Workspace nội bộ
+              <ArrowRight className="size-4 ml-2" />
+            </Link>
+            <Link
+              href="/auth/login"
+              className={buttonVariants({ variant: "outline", size: "lg" })}>
+              <UserCheck className="size-4 mr-2" />
+              Đăng nhập nhân sự
+            </Link>
           </div>
         </div>
-      )}
+      </main>
+
+      <footer className="container mx-auto px-4 py-4 text-center text-xs text-muted-foreground">
+        © {new Date().getFullYear()} TalentScreen Platform.
+      </footer>
     </div>
   );
 }

@@ -1,0 +1,59 @@
+/**
+ * Canonical Permissions constants.
+ * Source of truth: nestjs-auth/src/modules/admin/permissions/permissions.constants.ts
+ */
+
+export const Permissions = {
+  UsersRead: "users:read",
+  UsersInvite: "users:invite",
+  UsersUpdate: "users:update",
+  UsersDisable: "users:disable",
+  RolesRead: "roles:read",
+  RolesCreate: "roles:create",
+  RolesUpdate: "roles:update",
+  RolesDisable: "roles:disable",
+  PermissionsRead: "permissions:read",
+  RolePermissionsManage: "role-permissions:manage",
+  UserRolesManage: "user-roles:manage",
+  AuditRead: "audit:read",
+  JobsRead: "jobs:read",
+  JobsCreate: "jobs:create",
+  JobsUpdate: "jobs:update",
+  JobsClose: "jobs:close",
+  JobsManage: "jobs:manage",
+  CandidatesRead: "candidates:read",
+  CandidatesCreate: "candidates:create",
+  CandidatesUpdate: "candidates:update",
+  CandidatesManage: "candidates:manage",
+  ApplicationsRead: "applications:read",
+  ApplicationsCreate: "applications:create",
+  ApplicationsUpdate: "applications:update",
+  ApplicationsWithdraw: "applications:withdraw",
+  ApplicationsManage: "applications:manage",
+  CvRead: "cv:read",
+  CvUpload: "cv:upload",
+  CvDownload: "cv:download",
+  CvUpdateProfile: "cv:update-profile",
+  CvApproveProfile: "cv:approve-profile",
+  CvManage: "cv:manage",
+  QuestionSetsRead: "question-sets:read",
+  QuestionSetsCreate: "question-sets:create",
+  QuestionSetsUpdate: "question-sets:update",
+  QuestionSetsApprove: "question-sets:approve",
+  QuestionSetsManage: "question-sets:manage",
+  InterviewsRead: "interviews:read",
+  InterviewsCreate: "interviews:create",
+  InterviewsRevoke: "interviews:revoke",
+  InterviewsResend: "interviews:resend",
+  InterviewsManage: "interviews:manage",
+  ReviewsRead: "reviews:read",
+  ReviewsCreate: "reviews:create",
+  DecisionsRead: "decisions:read",
+  DecisionsCreate: "decisions:create",
+  DecisionsManage: "decisions:manage",
+} as const;
+
+export type PermissionKey = (typeof Permissions)[keyof typeof Permissions];
+
+export const SYSTEM_ROLE_KEYS = ["admin", "hr", "user"] as const;
+export type SystemRoleKey = (typeof SYSTEM_ROLE_KEYS)[number];
