@@ -15,6 +15,13 @@ import {
 const ROUTE_LABELS: Record<string, string> = {
   dashboard: "Tổng quan",
   jobs: "Vị trí tuyển dụng",
+  candidates: "Ứng viên",
+  applications: "Hồ sơ ứng tuyển",
+  overview: "Tổng quan",
+  cv: "Hồ sơ & CV",
+  questions: "Bộ câu hỏi",
+  interviews: "Phỏng vấn AI",
+  review: "Đánh giá & Quyết định",
   new: "Tạo mới",
   edit: "Chỉnh sửa",
   admin: "Quản trị hệ thống",

@@ -20,7 +20,9 @@ export default function UnauthorizedPage() {
       </h1>
 
       <p className="max-w-md text-sm text-muted-foreground leading-relaxed mb-6">
-        Tài khoản của bạn hiện không có quyền hạn (Permission) phù hợp để truy cập chức năng này. Vui lòng liên hệ quản trị viên (Admin) nếu bạn cần được cấp thêm quyền.
+        Tài khoản của bạn hiện không có quyền hạn (Permission) phù hợp để truy
+        cập chức năng này. Vui lòng liên hệ quản trị viên (Admin) nếu bạn cần
+        được cấp thêm quyền.
       </p>
 
       <div className="flex flex-wrap items-center justify-center gap-3">
