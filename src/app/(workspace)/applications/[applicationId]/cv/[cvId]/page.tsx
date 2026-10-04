@@ -9,9 +9,10 @@ import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/feedback/empty-state";
 import { AlertCircle } from "lucide-react";
 
-export default function ApplicationCvPage() {
+export default function ApplicationCvDetailPage() {
   const params = useParams();
   const applicationId = typeof params.applicationId === "string" ? params.applicationId : "";
+  const cvId = typeof params.cvId === "string" ? params.cvId : "";
 
   const { data: application, isLoading, isError, error, refetch } = useApplicationQuery(applicationId);
 
@@ -43,6 +44,7 @@ export default function ApplicationCvPage() {
   return (
     <CvWorkspace
       application={application}
+      initialCvId={cvId}
       onRefreshApplication={refetch}
     />
   );
