@@ -40,15 +40,17 @@ export function OffsetPagination({
       className={cn(
         "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 py-3 px-1",
         className,
-      )}
-    >
+      )}>
       {showItemSummary && (
         <p className="text-xs text-muted-foreground">
           {totalItems > 0 ? (
             <>
-              Hiển thị <span className="font-medium text-foreground">{startItem}</span>–
-              <span className="font-medium text-foreground">{endItem}</span> trong tổng số{" "}
-              <span className="font-medium text-foreground">{totalItems}</span> kết quả
+              Hiển thị{" "}
+              <span className="font-medium text-foreground">{startItem}</span>–
+              <span className="font-medium text-foreground">{endItem}</span>{" "}
+              trong tổng số{" "}
+              <span className="font-medium text-foreground">{totalItems}</span>{" "}
+              kết quả
             </>
           ) : (
             "Không có kết quả nào"
@@ -63,14 +65,14 @@ export function OffsetPagination({
           onClick={() => onPageChange(page - 1)}
           disabled={!hasPrevious}
           aria-label="Trang trước"
-          className="gap-1 px-2.5 h-8 text-xs"
-        >
+          className="gap-1 px-2.5 h-8 text-xs">
           <ChevronLeft className="size-3.5" />
           <span className="hidden sm:inline">Trước</span>
         </Button>
 
         <span className="px-2 text-xs font-medium text-muted-foreground">
-          Trang <span className="text-foreground">{page}</span> / {Math.max(totalPages, 1)}
+          Trang <span className="text-foreground">{page}</span> /{" "}
+          {Math.max(totalPages, 1)}
         </span>
 
         <Button
@@ -79,8 +81,7 @@ export function OffsetPagination({
           onClick={() => onPageChange(page + 1)}
           disabled={!hasNext}
           aria-label="Trang sau"
-          className="gap-1 px-2.5 h-8 text-xs"
-        >
+          className="gap-1 px-2.5 h-8 text-xs">
           <span className="hidden sm:inline">Sau</span>
           <ChevronRight className="size-3.5" />
         </Button>

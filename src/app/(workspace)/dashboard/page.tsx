@@ -25,10 +25,8 @@ import {
 import { PageHeader } from "@/components/shared/page-header";
 import { UserProfileCard } from "@/components/UserProfileCard";
 import { useLogoutMutation } from "@/features/auth";
-import { useRouter } from "next/navigation";
 
 export default function DashboardPage() {
-  const router = useRouter();
   const { user, authorization, can } = useSession();
   const logoutMutation = useLogoutMutation({
     redirectTo: "/",
