@@ -16,10 +16,11 @@ export const JOB_STATUS_MAP: Record<JobStatusKey, StatusPresentation> = {
   },
   closed: {
     label: "Đã đóng tuyển",
-    tone: "danger",
+    tone: "neutral",
     description: "Tin tuyển dụng đã dừng nhận hồ sơ mới",
   },
 };
+
 
 export function getJobStatusPresentation(status?: string | null): StatusPresentation {
   if (!status || !(status in JOB_STATUS_MAP)) {

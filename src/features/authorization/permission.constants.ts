@@ -53,7 +53,9 @@ export const Permissions = {
   DecisionsManage: "decisions:manage",
 } as const;
 
+export const PERMISSIONS = Permissions;
 export type PermissionKey = (typeof Permissions)[keyof typeof Permissions];
 
 export const SYSTEM_ROLE_KEYS = ["admin", "hr", "user"] as const;
 export type SystemRoleKey = (typeof SYSTEM_ROLE_KEYS)[number];
+

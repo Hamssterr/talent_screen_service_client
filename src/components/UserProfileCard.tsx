@@ -5,8 +5,17 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import { UserCircle2, Mail, ShieldCheck, KeyRound, Activity } from "lucide-react";
-import { CurrentUser, AuthorizationContext } from "@/features/auth/types/auth.types";
+import {
+  UserCircle2,
+  Mail,
+  ShieldCheck,
+  KeyRound,
+  Activity,
+} from "lucide-react";
+import {
+  CurrentUser,
+  AuthorizationContext,
+} from "@/features/auth/types/auth.types";
 import { LucideIcon } from "lucide-react";
 
 interface UserProfileCardProps {
@@ -32,13 +41,17 @@ const InfoRow = ({
       </div>
       <span className="text-sm font-medium text-muted-foreground">{label}</span>
     </div>
-    <div className={`text-sm font-semibold tracking-wide ${valueClass || "text-foreground"}`}>
+    <div
+      className={`text-sm font-semibold tracking-wide ${valueClass || "text-foreground"}`}>
       {value}
     </div>
   </div>
 );
 
-export const UserProfileCard = ({ user, authorization }: UserProfileCardProps) => {
+export const UserProfileCard = ({
+  user,
+  authorization,
+}: UserProfileCardProps) => {
   return (
     <Card className="w-full max-w-md mx-auto overflow-hidden border-border/50 shadow-sm hover:shadow-md transition-shadow">
       <CardHeader className="relative flex flex-col items-center pt-8 pb-6 border-b border-border/10">
@@ -62,7 +75,7 @@ export const UserProfileCard = ({ user, authorization }: UserProfileCardProps) =
       <CardContent className="pt-6 pb-6">
         <div className="flex flex-col gap-2">
           <InfoRow icon={Mail} label="Địa chỉ Email" value={user.email} />
-          
+
           <InfoRow
             icon={ShieldCheck}
             label="Vai trò (Roles)"
@@ -87,7 +100,8 @@ export const UserProfileCard = ({ user, authorization }: UserProfileCardProps) =
             icon={KeyRound}
             label="Quyền hạn (Permissions)"
             value={
-              authorization?.permissions && authorization.permissions.length > 0 ? (
+              authorization?.permissions &&
+              authorization.permissions.length > 0 ? (
                 <span className="text-xs px-2 py-0.5 rounded-md bg-muted text-foreground font-mono">
                   {authorization.permissions.length} quyền
                 </span>

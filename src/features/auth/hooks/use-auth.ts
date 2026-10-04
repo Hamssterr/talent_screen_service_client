@@ -48,9 +48,18 @@ export const useLoginMutation = (
 /**
  * Mutation hook for logout.
  */
-export const useLogoutMutation = (
-  options?: UseMutationOptions<void, Error, void>,
-) => {
+export interface LogoutMutationOptions extends UseMutationOptions<
+  void,
+  Error,
+  void
+> {
+  redirectTo?: string | false;
+}
+
+/**
+ * Mutation hook for logout.
+ */
+export const useLogoutMutation = (options?: LogoutMutationOptions) => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -60,7 +69,10 @@ export const useLogoutMutation = (
         await authApi.logout();
       } catch (err) {
         // Even if server revoke fails (e.g. session already expired or network issue), proceed to clear client session
-        console.warn("[Auth] Server logout notification failed, clearing local session.", err);
+        console.warn(
+          "[Auth] Server logout notification failed, clearing local session.",
+          err,
+        );
       }
     },
     ...options,
@@ -69,7 +81,9 @@ export const useLogoutMutation = (
       queryClient.removeQueries({ queryKey: authKeys.all });
       queryClient.removeQueries({ queryKey: authorizationKeys.all });
       queryClient.clear(); // Clear all cached query data for security
-      router.push("/auth/login");
+      if (options?.redirectTo !== false) {
+        router.push(options?.redirectTo ?? "/auth/login");
+      }
       if (options?.onSettled) {
         options.onSettled(...args);
       }
@@ -80,9 +94,7 @@ export const useLogoutMutation = (
 /**
  * Mutation hook for logout from all devices.
  */
-export const useLogoutAllMutation = (
-  options?: UseMutationOptions<void, Error, void>,
-) => {
+export const useLogoutAllMutation = (options?: LogoutMutationOptions) => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -96,7 +108,9 @@ export const useLogoutAllMutation = (
       queryClient.removeQueries({ queryKey: authKeys.all });
       queryClient.removeQueries({ queryKey: authorizationKeys.all });
       queryClient.clear();
-      router.push("/auth/login");
+      if (options?.redirectTo !== false) {
+        router.push(options?.redirectTo ?? "/auth/login");
+      }
       if (options?.onSettled) {
         options.onSettled(...args);
       }
@@ -177,12 +191,14 @@ export const useCurrentUserQuery = (
     "queryKey" | "queryFn"
   >,
 ) => {
-  const hasToken = typeof window !== "undefined" && Boolean(accessTokenStore.getAccessToken());
+  const hasToken =
+    typeof window !== "undefined" && Boolean(accessTokenStore.getAccessToken());
 
   return useQuery({
     queryKey: authKeys.currentUser(),
     queryFn: () => authApi.getCurrentUser(),
-    enabled: hasToken && (options?.enabled !== undefined ? options.enabled : true),
+    enabled:
+      hasToken && (options?.enabled !== undefined ? options.enabled : true),
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: false,
     ...options,
