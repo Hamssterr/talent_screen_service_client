@@ -31,7 +31,7 @@ export function RequirePermission({
   if (permission) {
     isAllowed = can(context, permission);
   } else if (anyOf && anyOf.length > 0) {
-    isAllowed = canAny(context, anyOf);
+    isAllowed = canAny(context, anyOf);   
   } else if (allOf && allOf.length > 0) {
     isAllowed = canAll(context, allOf);
   }

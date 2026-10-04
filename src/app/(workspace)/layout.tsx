@@ -1,6 +1,7 @@
 import * as React from "react";
 import { SessionProvider } from "@/providers/session-provider";
 import { AuthGate } from "@/components/auth/auth-gate";
+import { AppShell } from "@/components/layout";
 
 export default function WorkspaceLayout({
   children,
@@ -10,7 +11,7 @@ export default function WorkspaceLayout({
   return (
     <SessionProvider>
       <AuthGate>
-        {children}
+        <AppShell>{children}</AppShell>
       </AuthGate>
     </SessionProvider>
   );

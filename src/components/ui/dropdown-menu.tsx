@@ -39,13 +39,17 @@ function DropdownMenuSubTrigger({
 function DropdownMenuContent({
   className,
   sideOffset = 4,
+  align = "end",
+  side = "bottom",
   ...props
 }: MenuPrimitive.Popup.Props & {
   sideOffset?: number;
+  align?: "start" | "center" | "end";
+  side?: "top" | "right" | "bottom" | "left";
 }) {
   return (
     <MenuPrimitive.Portal>
-      <MenuPrimitive.Positioner sideOffset={sideOffset}>
+      <MenuPrimitive.Positioner sideOffset={sideOffset} align={align} side={side}>
         <MenuPrimitive.Popup
           data-slot="dropdown-menu-content"
           className={cn(
@@ -58,6 +62,7 @@ function DropdownMenuContent({
     </MenuPrimitive.Portal>
   );
 }
+
 
 function DropdownMenuItem({
   className,
