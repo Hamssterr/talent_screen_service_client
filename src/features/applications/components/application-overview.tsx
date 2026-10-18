@@ -14,7 +14,13 @@ import {
   CheckCircle2,
   AlertCircle,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ConflictAlert } from "@/components/feedback/conflict-alert";
@@ -33,7 +39,10 @@ export interface ApplicationOverviewProps {
   onRefresh?: () => void;
 }
 
-export function ApplicationOverview({ application, onRefresh }: ApplicationOverviewProps) {
+export function ApplicationOverview({
+  application,
+  onRefresh,
+}: ApplicationOverviewProps) {
   const { user, can } = useSession();
 
   const [isEditingNotes, setIsEditingNotes] = React.useState(false);
@@ -50,7 +59,9 @@ export function ApplicationOverview({ application, onRefresh }: ApplicationOverv
 
   const isOwner = Boolean(user?.id && application.owner?.ownerId === user.id);
   const canUpdate =
-    !isTerminal && can(Permissions.ApplicationsUpdate) && (isOwner || can(Permissions.ApplicationsManage));
+    !isTerminal &&
+    can(Permissions.ApplicationsUpdate) &&
+    (isOwner || can(Permissions.ApplicationsManage));
 
   const handleStartEditing = () => {
     setNotesInput(application.notes || "");
@@ -112,8 +123,7 @@ export function ApplicationOverview({ application, onRefresh }: ApplicationOverv
                   </CardTitle>
                   <Link
                     href={`/candidates/${application.candidateId}`}
-                    className="text-xs text-primary hover:underline flex items-center gap-1"
-                  >
+                    className="text-xs text-primary hover:underline flex items-center gap-1">
                     <span>Hồ sơ</span>
                     <ExternalLink className="size-3" />
                   </Link>
@@ -125,7 +135,9 @@ export function ApplicationOverview({ application, onRefresh }: ApplicationOverv
                 </p>
                 <div className="flex items-center gap-1.5 text-muted-foreground">
                   <Mail className="size-3.5 shrink-0" />
-                  <span className="truncate">{application.candidate?.email}</span>
+                  <span className="truncate">
+                    {application.candidate?.email}
+                  </span>
                 </div>
                 {application.candidate?.phone && (
                   <div className="flex items-center gap-1.5 text-muted-foreground">
@@ -146,8 +158,7 @@ export function ApplicationOverview({ application, onRefresh }: ApplicationOverv
                   </CardTitle>
                   <Link
                     href={`/jobs/${application.jobId}`}
-                    className="text-xs text-primary hover:underline flex items-center gap-1"
-                  >
+                    className="text-xs text-primary hover:underline flex items-center gap-1">
                     <span>Chi tiết vị trí</span>
                     <ExternalLink className="size-3" />
                   </Link>
@@ -163,7 +174,10 @@ export function ApplicationOverview({ application, onRefresh }: ApplicationOverv
                   )}
                 </div>
                 <div className="text-muted-foreground">
-                  Mã vị trí: <span className="font-mono text-foreground">{application.jobId.slice(0, 8)}...</span>
+                  Mã vị trí:{" "}
+                  <span className="font-mono text-foreground">
+                    {application.jobId.slice(0, 8)}...
+                  </span>
                 </div>
               </CardContent>
             </Card>
@@ -187,8 +201,7 @@ export function ApplicationOverview({ application, onRefresh }: ApplicationOverv
                   variant="outline"
                   size="sm"
                   onClick={handleStartEditing}
-                  className="h-8 text-xs gap-1.5"
-                >
+                  className="h-8 text-xs gap-1.5">
                   <Edit className="size-3.5" />
                   <span>Chỉnh sửa ghi chú</span>
                 </Button>
@@ -222,8 +235,7 @@ export function ApplicationOverview({ application, onRefresh }: ApplicationOverv
                         setNotesInput(application.notes || "");
                       }}
                       disabled={updateMutation.isPending}
-                      className="h-8 text-xs"
-                    >
+                      className="h-8 text-xs">
                       Hủy
                     </Button>
                     <AsyncButton
@@ -231,8 +243,7 @@ export function ApplicationOverview({ application, onRefresh }: ApplicationOverv
                       onClick={handleSaveNotes}
                       isPending={updateMutation.isPending}
                       loadingText="Đang lưu..."
-                      className="h-8 text-xs"
-                    >
+                      className="h-8 text-xs">
                       Lưu ghi chú
                     </AsyncButton>
                   </div>
@@ -262,7 +273,9 @@ export function ApplicationOverview({ application, onRefresh }: ApplicationOverv
             <CardContent className="space-y-3 text-xs">
               <div className="flex items-center justify-between gap-3 p-3 rounded-lg border bg-card">
                 <div>
-                  <p className="font-semibold text-foreground">1. Tải lên và trích xuất hồ sơ CV</p>
+                  <p className="font-semibold text-foreground">
+                    1. Tải lên và trích xuất hồ sơ CV
+                  </p>
                   <p className="text-muted-foreground mt-0.5">
                     {application.currentCvVersionId
                       ? "Đã có bản CV được liên kết. Bạn có thể xem hoặc cập nhật phiên bản mới."
@@ -271,8 +284,10 @@ export function ApplicationOverview({ application, onRefresh }: ApplicationOverv
                 </div>
                 <Link
                   href={`/applications/${application.id}/cv`}
-                  className={cn(buttonVariants({ variant: "outline", size: "sm" }), "h-8 text-xs gap-1 shrink-0")}
-                >
+                  className={cn(
+                    buttonVariants({ variant: "outline", size: "sm" }),
+                    "h-8 text-xs gap-1 shrink-0",
+                  )}>
                   <span>Chuyển sang tab CV</span>
                   <ArrowRight className="size-3" />
                 </Link>

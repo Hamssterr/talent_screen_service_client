@@ -2,7 +2,10 @@
 
 import * as React from "react";
 import { useParams } from "next/navigation";
-import { useApplicationQuery, ApplicationOverview } from "@/features/applications";
+import {
+  useApplicationQuery,
+  ApplicationOverview,
+} from "@/features/applications";
 
 export default function ApplicationOverviewPage() {
   const params = useParams<{ applicationId: string }>();
@@ -14,5 +17,10 @@ export default function ApplicationOverviewPage() {
     return null; // Handled by layout
   }
 
-  return <ApplicationOverview application={application} onRefresh={() => refetch()} />;
+  return (
+    <ApplicationOverview
+      application={application}
+      onRefresh={() => refetch()}
+    />
+  );
 }
