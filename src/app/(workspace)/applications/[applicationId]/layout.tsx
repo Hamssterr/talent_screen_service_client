@@ -4,7 +4,11 @@ import * as React from "react";
 import { useParams } from "next/navigation";
 import { RequirePermission } from "@/features/authorization/components/require-permission";
 import { Permissions } from "@/features/authorization/permission.constants";
-import { useApplicationQuery, ApplicationHeader, ApplicationWorkspaceNav } from "@/features/applications";
+import {
+  useApplicationQuery,
+  ApplicationHeader,
+  ApplicationWorkspaceNav,
+} from "@/features/applications";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ErrorState } from "@/components/feedback/error-state";
 
@@ -49,7 +53,10 @@ export default function ApplicationWorkspaceLayout({
       ) : (
         <div className="space-y-6">
           {/* Workspace Header */}
-          <ApplicationHeader application={application} onRefresh={() => refetch()} />
+          <ApplicationHeader
+            application={application}
+            onRefresh={() => refetch()}
+          />
 
           {/* Tab Navigation */}
           <ApplicationWorkspaceNav applicationId={application.id} />
